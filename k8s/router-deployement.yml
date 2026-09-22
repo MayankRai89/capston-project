@@ -17,6 +17,7 @@ spec:
       containers:
         - name: router
           image: router:v1
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
           env:

@@ -15,7 +15,7 @@ spec:
       containers:
         - name: sandbox
           image: sandbox:v1
-
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
           env:
