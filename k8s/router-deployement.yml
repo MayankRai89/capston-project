@@ -2,8 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: router-deployment
-labels:
-name: router-deployment
+  labels:
+    name: router-deployment
 spec:
   replicas: 1
   selector:
@@ -41,19 +41,4 @@ spec:
             requests:
               cpu: "100m"
               memory: "128Mi"
-            livenessProbe:
-              httpGet:
-                path: /api/router/health
-                port: 3000
-              initialDelaySeconds: 5
-              periodSeconds: 5
-            readinessProbe:
-              httpGet:
-                path: /api/router/health
-                port: 3000
-              initialDelaySeconds: 5
-              periodSeconds: 5
-            ports:
-              - containerPort: 3000
-                name: router
-                image: router:v1
+

@@ -23,6 +23,6 @@ spec:
             path: "/"
             backend:
               service:
-              name: router-service
-              port:
-                number: 80
+                name: router-service
+                port:
+                  number: 80

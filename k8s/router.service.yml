@@ -2,14 +2,14 @@ kind: Service
 apiVersion: v1
 metadata:
   name: router-service
-labels:
-  app: router
+  labels:
+    app: router
 spec:
   selector:
     app: router
-  type: clusterIP
+  type: ClusterIP
   ports:
     - name: http
       port: 80
-      targetPort: 8080
-  externalTrafficPolicy: Local
+      targetPort: 3000
+

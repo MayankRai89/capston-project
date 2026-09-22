@@ -1,40 +1,51 @@
-import { Express } from "express";
-import morgan, { Morgan } from "morgan";
+import express from "express";
+import morgan from "morgan";
 import { createProxyMiddleware } from "http-proxy-middleware";
 
 const app = express();
 app.use(morgan("combined"));
-app.get("/api/status/healthz", (req, res) => {
+
+app.get(["/api/router/health", "/api/status/health"], (req, res) => {
   res.status(200).json({
     message: "Router is healthy",
     status: "ok",
   });
 });
-app.get("/api/status/redyz", (req, res) => {
+
+app.get(["/api/router/ready", "/api/status/ready"], (req, res) => {
   res.status(200).json({
     status: "ready",
   });
 });
 
+const proxies = {};
+
+function getProxy(sandboxId) {
+  if (!proxies[sandboxId]) {
+    proxies[sandboxId] = createProxyMiddleware({
+      target: `http://sandbox-service-${sandboxId}`,
+      changeOrigin: true,
+      ws: true,
+    });
+  }
+  return proxies[sandboxId];
+}
+
 app.use((req, res, next) => {
   const host = req.headers.host;
+  if (!host) {
+    return next();
+  }
   const sandboxId = host.split(".")[0];
-  //check if it starts with router
+  // check if it starts with router
   if (sandboxId === "router") {
-    next();
-    return;
+    return next();
   }
   // check if it starts with localhost
   if (sandboxId.startsWith("localhost")) {
-    next();
-    return;
+    return next();
   }
-  const target = "http://sandbox-service-${sandboxId}";
-  return createProxyMiddleware({
-    target,
-    changeOrigin: true,
-    ws: true,
-  })(req, res, next);
+  return getProxy(sandboxId)(req, res, next);
 });
 
 export default app;
