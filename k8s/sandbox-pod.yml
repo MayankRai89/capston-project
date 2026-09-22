@@ -19,14 +19,14 @@ spec:
         httpGet:
           path: /api/sandbox/health
           port: 3000
-        initialDelaySeconds: 5
-        periodSeconds: 5
+        initialDelaySeconds: 10
+        periodSeconds: 10
       readinessProbe:
         httpGet:
           path: /api/sandbox/health
           port: 3000
-        initialDelaySeconds: 5
-        periodSeconds: 5
+        initialDelaySeconds: 10
+        periodSeconds: 10
       resources:
         limits:
           cpu: "100m"
