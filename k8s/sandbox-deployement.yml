@@ -12,6 +12,7 @@ spec:
       labels:
         app: sandbox
     spec:
+      serviceAccountName: sandbox-sa
       containers:
         - name: sandbox
           image: sandbox:v1
